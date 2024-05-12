@@ -1,5 +1,6 @@
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Scanner;
 
@@ -17,14 +18,15 @@ public class User {
     public void register() {
 
         System.out.println();
-        System.out.println("Username : ");
+        System.out.print("Username : ");
         String username = scanner.nextLine();
-        System.out.println("Email : ");
+        scanner.nextLine();
+        System.out.print("Email : ");
         String email = scanner.nextLine();
-        System.out.println("Password : ");
+        System.out.print("Password : ");
         String password = scanner.nextLine();
 
-        if(!registration_exist()) {
+        if(!registration_exist(email)) {
 
             try {
 
@@ -53,7 +55,8 @@ public class User {
         }
         else {
 
-            System.out.println("Registration for this user already exist");
+            System.out.println();
+            System.out.println("user already exist");
         }
     }
 
@@ -62,8 +65,31 @@ public class User {
 
     }
 
-    public Boolean registration_exist() {
+    public Boolean registration_exist(String email) {
 
+        String query = "select * from users where email = ?";
 
+        try {
+
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setString(1, email);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            
+
+            if(resultSet.next()) {
+
+                return true;
+            }
+            else {
+
+                return false;
+            }
+
+        } catch (SQLException e) {
+            
+            e.printStackTrace();
+        }
+
+        return false;
     }
 }
