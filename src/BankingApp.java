@@ -27,6 +27,7 @@ public class BankingApp {
                 System.out.println();
                 System.out.println("1. Register");
                 System.out.println("2. Login");
+                System.out.println("3. Exit");
                 System.out.println();
                 System.out.print("Chose your option : ");
                 int choice = scanner.nextInt();
