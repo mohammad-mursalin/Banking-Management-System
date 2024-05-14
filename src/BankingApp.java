@@ -94,6 +94,12 @@ public class BankingApp {
 
                                         case 4 : accountManager.checkBalance(accountNumber);
                                                  break;
+
+                                        case 5 : logout();
+                                                 break;
+
+                                        default : System.out.println();
+                                                  System.out.println("Please enter valid choice");
                             
                                     }
                                 }
@@ -104,6 +110,9 @@ public class BankingApp {
                             }
 
                     case 3 : exit();
+
+                    default : System.out.println();
+                              System.out.println("Please enter valid choice");
                 }
             }
 
@@ -114,6 +123,11 @@ public class BankingApp {
     }
 
     public static void exit() {
+
+    }
+
+    public static void logout() {
+
 
     }
 
