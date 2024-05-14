@@ -17,6 +17,8 @@ public class BankingApp {
             Scanner scanner = new Scanner(System.in);
 
             User user = new User(connection, scanner);
+
+            String email;
             
             while(true) {
 
@@ -33,7 +35,7 @@ public class BankingApp {
 
                     case 1 -> user.register();
 
-                    case 2 -> user.login();
+                    case 2 -> email = user.login();
                 }
             }
 

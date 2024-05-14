@@ -19,7 +19,7 @@ public class User {
 
         System.out.println();
         System.out.print("Username : ");
-        String username = scanner.nextLine();
+        String username = scanner.next();
         scanner.nextLine();
         System.out.print("Email : ");
         String email = scanner.nextLine();
@@ -30,7 +30,7 @@ public class User {
 
             try {
 
-                String query = "insert into users values(?,?,?)";
+                String query = "insert into users(username, email, password) values(?,?,?)";
                 PreparedStatement preparedStatement = connection.prepareStatement(query);
     
                 preparedStatement.setString(1, username);
@@ -60,9 +60,35 @@ public class User {
         }
     }
 
-    public void login() {
+    public String login() {
 
+        System.out.println();
+        System.out.print("Enter email : ");
+        String email = scanner.nextLine();
+        System.out.print("Enter password : ");
+        String password = scanner.nextLine();
 
+        String query = "select * from users where email = ? and password = ?";
+
+        try {
+
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setString(1, email);
+            preparedStatement.setString(2, password);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            if(resultSet.next()) {
+
+                return email;
+            }
+            
+        } catch (SQLException e) {
+
+            System.out.println(e.getMessage());
+        }
+
+        return null;
     }
 
     public Boolean registration_exist(String email) {
