@@ -21,7 +21,7 @@ public class BankingApp {
             AccountManager accountManager = new AccountManager(connection, scanner);
 
             String email;
-            String accountNumber;
+            long accountNumber;
             
             while(true) {
 
@@ -38,7 +38,7 @@ public class BankingApp {
                 switch(choice) {
 
                     case 1 : user.register();
-                            break;
+                             break;
 
                     case 2 : email = user.login();
 
@@ -66,7 +66,8 @@ public class BankingApp {
                                     }
                                 }
                                 
-                                int choice3;
+                                int choice3 = 0;
+
                                 accountNumber = account.getAccountNumber(email);
 
                                 while(choice != 5) {
@@ -108,6 +109,8 @@ public class BankingApp {
 
                                 System.out.println("Invalid email or password");
                             }
+
+                            break;
 
                     case 3 : exit();
 

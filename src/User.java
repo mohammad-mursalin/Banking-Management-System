@@ -64,9 +64,10 @@ public class User {
 
         System.out.println();
         System.out.print("Enter email : ");
-        String email = scanner.nextLine();
+        String email = scanner.next();
+        scanner.nextLine();
         System.out.print("Enter password : ");
-        String password = scanner.nextLine();
+        String password = scanner.next();
 
         String query = "select * from users where email = ? and password = ?";
 
@@ -81,6 +82,10 @@ public class User {
             if(resultSet.next()) {
 
                 return email;
+            }
+            else {
+
+                return null;
             }
             
         } catch (SQLException e) {

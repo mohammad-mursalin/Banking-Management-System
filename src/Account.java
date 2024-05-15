@@ -1,6 +1,7 @@
-import java.beans.Statement;
+import java.sql.Statement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Scanner;
 
@@ -17,49 +18,127 @@ public class Account {
 
     public void openAccount(String email) {
 
-        System.out.println();
-        System.out.print("Full name : ");
-        String fullName = scanner.nextLine();
-        System.out.print("Security pin : ");
-        String securityPin = scanner.nextLine();
+        if(!accountExist(email)) {
 
-        long account_number = generateAccountNumber();
+            System.out.println();
+            System.out.print("Full name : ");
+            String fullName = scanner.nextLine();
+            System.out.print("Security pin : ");
+            String securityPin = scanner.nextLine();
 
-        String query = "insert into accounts (account_number,full_name, email,security_pin) values (?,?,?,?)";
+            long account_number = generateAccountNumber();
 
-        PreparedStatement preparedStatement;
+            String query = "insert into accounts (account_number,full_name, email,security_pin) values (?,?,?,?)";
+
+            try {
+
+                PreparedStatement preparedStatement = connection.prepareStatement(query);
+
+                preparedStatement.setLong(1, account_number);
+                preparedStatement.setString(2, fullName);
+                preparedStatement.setString(3, email);
+                preparedStatement.setString(4, securityPin);
+
+                int affectedRow = preparedStatement.executeUpdate();
+
+                if( affectedRow > 0 ) {
+
+                    System.out.println();
+                    System.out.println("Account created successfully");
+                    System.out.println();
+                    System.out.println("Your account number is " +account_number);
+                }
+                else {
+
+                    System.out.println();
+                    System.out.println("Account creation failed");
+                }
+
+            } catch (SQLException e) {
+                
+                e.printStackTrace();
+            }
+        }
+
+        else {
+
+            System.out.println();
+            System.out.println("Account already exists for this email");
+        }
+
+    }
+
+    public long getAccountNumber(String email) {
+
+        String query = "select account_number from accounts where email = ?";
+
         try {
 
-            preparedStatement = connection.prepareStatement(query);
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setString(1, email);
 
-            preparedStatement.setLong(1, account_number);
-            preparedStatement.setString(2, fullName);
-            preparedStatement.setString(3, email);
-            preparedStatement.setString(4, securityPin);
+            ResultSet resultSet = preparedStatement.executeQuery();
 
-        preparedStatement.executeUpdate();
+            if( resultSet.next()) {
+
+                return resultSet.getInt("account_number");
+            }
 
         } catch (SQLException e) {
             
             e.printStackTrace();
         }
 
-        
-    }
-
-    public String getAccountNumber(String email) {
-
-        return null;
+        throw new RuntimeException("Account number doesn't exist");
     }
 
     public long generateAccountNumber() {
 
-        Statement statement = connection.createStatement("select account_number from accounts order by account_number disc limit 1");
+        try {
+
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery("select account_number from accounts order by account_number disc limit 1");
+
+            if(resultSet.next()) {
+
+                return resultSet.getInt("account_number")+1;
+            }
+            else {
+
+                return 100100;
+            }
+        } catch (SQLException e) {
+            
+            e.printStackTrace();
+        }
 
         return 100100;
     }
 
     public boolean accountExist(String email) {
+
+        String query  = "Select * from accounts where email = ?";
+
+        try {
+
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setString(1, email);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            if( resultSet.next()) {
+
+                return true;
+            }
+            else {
+
+                return false;
+            }
+
+        } catch (SQLException e) {
+            
+            e.printStackTrace();
+        }
 
         return false;
     }

@@ -12,22 +12,22 @@ public class AccountManager {
         this.scanner = scanner;
     }
 
-    public void debitMoney(String accountNumber) {
+    public void debitMoney(long accountNumber) {
 
 
     }
 
-    public void creditMoney(String accountNumber) {
+    public void creditMoney(long accountNumber) {
 
         
     }
 
-    public void transferMoney(String accountNumber) {
+    public void transferMoney(long accountNumber) {
 
         
     }
 
-    public void checkBalance(String accountNumber) {
+    public void checkBalance(long accountNumber) {
 
         
     }
