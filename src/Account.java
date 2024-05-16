@@ -22,9 +22,11 @@ public class Account {
 
             System.out.println();
             System.out.print("Full name : ");
-            String fullName = scanner.nextLine();
+            String fullName = scanner.next();
+            scanner.nextLine();
             System.out.print("Security pin : ");
-            String securityPin = scanner.nextLine();
+            String securityPin = scanner.next();
+            scanner.nextLine();
 
             long account_number = generateAccountNumber();
 

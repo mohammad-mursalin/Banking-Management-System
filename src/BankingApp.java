@@ -50,8 +50,8 @@ public class BankingApp {
                                 if(!(account.accountExist(email))) {
 
                                     System.out.println();
-                                    System.out.print("1. Open a new bank account");
-                                    System.out.print("2. Exit");
+                                    System.out.println("1. Open a new bank account");
+                                    System.out.println("2. Exit");
                                     System.out.println();
                                     System.out.print("chose option : ");
                                     int choice2 = scanner.nextInt();
