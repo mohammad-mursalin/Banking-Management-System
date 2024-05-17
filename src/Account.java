@@ -99,7 +99,7 @@ public class Account {
         try {
 
             Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery("select account_number from accounts order by account_number disc limit 1");
+            ResultSet resultSet = statement.executeQuery("select account_number from accounts order by account_number desc limit 1");
 
             if(resultSet.next()) {
 

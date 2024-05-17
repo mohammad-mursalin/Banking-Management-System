@@ -73,11 +73,11 @@ public class BankingApp {
                                 while(choice != 5) {
 
                                     System.out.println();
-                                    System.out.print("1. Debit money");
-                                    System.out.print("2. Credit money");
-                                    System.out.print("3. Transfer money");
-                                    System.out.print("4. Check balance");
-                                    System.out.print("5. Log out");
+                                    System.out.println("1. Debit money");
+                                    System.out.println("2. Credit money");
+                                    System.out.println("3. Transfer money");
+                                    System.out.println("4. Check balance");
+                                    System.out.println("5. Log out");
                                     System.out.println();
                                     System.out.print("chose option : ");
                                     choice3 = scanner.nextInt();
