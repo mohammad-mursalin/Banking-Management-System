@@ -100,9 +100,79 @@ public class AccountManager {
         connection.setAutoCommit(true);
     }
 
-    public void creditMoney(long accountNumber) {
+    public void creditMoney(long accountNumber) throws SQLException {
 
-        
+        try {
+
+            connection.setAutoCommit(false);
+
+            if( accountNumber != 0) {
+
+                System.out.println();
+                System.out.print("Amount : ");
+                double creditAmount = scanner.nextDouble();
+                System.out.print("Enter security pin : ");
+                String securityPin = scanner.next();
+                scanner.nextLine();
+                
+                String query = "select * from accounts where account_number = ? and security_pin = ?";
+
+                PreparedStatement preparedStatement = connection.prepareStatement(query);
+                preparedStatement.setLong(1, accountNumber);
+                preparedStatement.setString(2, securityPin);
+
+                ResultSet resultSet = preparedStatement.executeQuery();
+
+                if(resultSet.next()) {
+
+                    String creditQuery = "update accounts set balance = + ? where account_number = ? and security_pin = ?";
+
+                    PreparedStatement creditPreparedStatement = connection.prepareStatement(creditQuery);
+
+                    creditPreparedStatement.setDouble(1, creditAmount);
+                    creditPreparedStatement.setLong(2, accountNumber);
+                    creditPreparedStatement.setString(3, securityPin);
+
+                    int affectedRow = creditPreparedStatement.executeUpdate();
+
+                    if(affectedRow > 0) {
+
+                        System.out.println();
+                        System.out.println("Balance "+creditAmount+ " credited successfully");
+
+                        connection.commit();
+                        connection.setAutoCommit(true);
+                    }
+                    else {
+
+                        System.out.println();
+                        System.out.println("Balance "+creditAmount+ " creditation unsuccessful");
+
+                        connection.rollback();
+                        connection.setAutoCommit(true);
+                    }
+
+                }
+                else {
+
+                    System.out.println();
+                    System.out.println("Invalid security pin");
+                }
+
+            }
+            else {
+
+                System.out.println();
+                System.out.println("Invalid account number");
+            }
+            
+        } catch (SQLException e) {
+
+            e.printStackTrace();
+            
+        }
+
+        connection.setAutoCommit(true);
     }
 
     public void transferMoney(long accountNumber) {
