@@ -97,7 +97,11 @@ public class BankingApp {
                                                  break;
 
                                         case 5 : logout();
-                                                 break;
+
+                                                 connection.close();
+                                                 scanner.close();
+
+                                                 return;
 
                                         default : System.out.println();
                                                   System.out.println("Please enter valid choice");
@@ -114,24 +118,56 @@ public class BankingApp {
 
                     case 3 : exit();
 
+                             connection.close();
+                             scanner.close();
+
+                             return;
+
                     default : System.out.println();
                               System.out.println("Please enter valid choice");
                 }
             }
 
-        } catch (SQLException e) {
+        } catch (SQLException | InterruptedException e) {
             
             System.out.println(e.getMessage());
         }
     }
 
-    public static void exit() {
+    public static void exit() throws InterruptedException {
 
+        int i = 0;
+
+        System.out.println();
+        System.out.print("Exiting system");
+
+        while(i<5) {
+
+            System.out.print(".");
+            Thread.sleep(500);
+
+            i++;
+        }
+
+        System.out.println();
     }
 
-    public static void logout() {
+    public static void logout() throws InterruptedException {
 
+        int i = 0;
 
+        System.out.println();
+        System.out.print("Logging out");
+
+        while(i<5) {
+
+            System.out.print(".");
+            Thread.sleep(500);
+
+            i++;
+        }
+
+        System.out.println();
     }
 
 }

@@ -22,8 +22,9 @@ public class AccountManager {
             if(accountNumber != 0) {
 
                 System.out.println();
-                System.out.println("Amount : ");
+                System.out.print("Amount : ");
                 double debitAmount = scanner.nextDouble();
+                scanner.nextLine();
                 System.out.print("Security pin : ");
                 String securityPin = scanner.next();
                 scanner.nextLine();
@@ -44,7 +45,7 @@ public class AccountManager {
 
                     if(debitAmount <= balance) {
 
-                        String debitQuery = "update accounts set balance = - ? where account_number = ? and security_pin = ?";
+                        String debitQuery = "update accounts set balance = balance - ? where account_number = ? and security_pin = ?";
 
                         PreparedStatement debitPreparedStatement = connection.prepareStatement(debitQuery);
                         debitPreparedStatement.setDouble(1, debitAmount);
@@ -83,7 +84,6 @@ public class AccountManager {
 
                 }
 
-            
             }
             else {
 
@@ -111,6 +111,7 @@ public class AccountManager {
                 System.out.println();
                 System.out.print("Amount : ");
                 double creditAmount = scanner.nextDouble();
+                scanner.nextLine();
                 System.out.print("Enter security pin : ");
                 String securityPin = scanner.next();
                 scanner.nextLine();
@@ -125,7 +126,7 @@ public class AccountManager {
 
                 if(resultSet.next()) {
 
-                    String creditQuery = "update accounts set balance = + ? where account_number = ? and security_pin = ?";
+                    String creditQuery = "update accounts set balance = balance + ? where account_number = ? and security_pin = ?";
 
                     PreparedStatement creditPreparedStatement = connection.prepareStatement(creditQuery);
 
@@ -186,8 +187,10 @@ public class AccountManager {
             long recieverAccountNumber = scanner.nextLong();
             System.out.print("Enter amount : ");
             double transferBalance = scanner.nextDouble();
+            scanner.nextLine();
             System.out.print("Enter security pin : ");
-            String securityPin = scanner.nextLine();
+            String securityPin = scanner.next();
+            scanner.nextLine();
             
             if(senderAccountNumber != 0 && recieverAccountNumber != 0) {
 
@@ -205,7 +208,7 @@ public class AccountManager {
 
                     if(transferBalance <= senderBalance) {
 
-                        String debitQuery = "update accounts set balance = - ? where account_number = ? and security_pin = ?";
+                        String debitQuery = "update accounts set balance = balance - ? where account_number = ? and security_pin = ?";
                         PreparedStatement debitPreparedStatement = connection.prepareStatement(debitQuery);
                         debitPreparedStatement.setDouble(1, transferBalance);
                         debitPreparedStatement.setLong(2, senderAccountNumber);
@@ -213,10 +216,10 @@ public class AccountManager {
 
                         int debitAccountAffectedRow = debitPreparedStatement.executeUpdate();
 
-                        String creditQuery = "update accounts set balance = + ? where account_number = ? ";
+                        String creditQuery = "update accounts set balance = balance + ? where account_number = ? ";
                         PreparedStatement creditPreparedStatement = connection.prepareStatement(creditQuery);
-                        debitPreparedStatement.setDouble(1, transferBalance);
-                        debitPreparedStatement.setLong(2, recieverAccountNumber);
+                        creditPreparedStatement.setDouble(1, transferBalance);
+                        creditPreparedStatement.setLong(2, recieverAccountNumber);
 
                         int creditAccountAffectedRow = creditPreparedStatement.executeUpdate();
 
