@@ -175,9 +175,31 @@ public class AccountManager {
         connection.setAutoCommit(true);
     }
 
-    public void transferMoney(long accountNumber) {
+    public void transferMoney(long senderAccountNumber) {
 
-        
+        try {
+
+            connection.setAutoCommit(false);
+
+            System.out.println();
+            System.out.print("Enter reciever account number : ");
+            long recieverAccountNumber = scanner.nextLong();
+            System.out.print("Enter security pin : ");
+            String securityPin = scanner.nextLine();
+            
+            if(senderAccountNumber != 0 && recieverAccountNumber != 0) {
+
+
+            }
+            else {
+
+                System.out.println();
+                System.out.println("Invalid account number");
+            }
+        } catch (SQLException e) {
+            
+
+        }
     }
 
     public void checkBalance(long accountNumber) {
